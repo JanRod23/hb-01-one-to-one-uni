@@ -8,7 +8,7 @@ import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 import com.luv2code.hibernate.demo.entity.Student;
 
-public class CreateDemo {
+public class DeleteDemo {
 
 	public static void main(String[] args) {
 		
@@ -21,19 +21,17 @@ public class CreateDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			// Create the objects
-			Instructor tempInstructor = new Instructor("Madhu","Patel","madhu@luv2code.com");
-			InstructorDetail tempInstructorDetail = new InstructorDetail("http://www.youtube.com",
-																		 "Guitar");
-				
-			// Associate the objects
-			tempInstructor.setInstructorDetail(tempInstructorDetail);
-			
 			// Start transaction
 			session.beginTransaction();
 			
-			// Save the instructor (also saves instructor_detail because of cascade configs)
-			session.save(tempInstructor);
+			// Get instructor using primary key/id
+			int theID = 1;
+			Instructor tempInstructor = session.get(Instructor.class, theID);
+			
+			// Delete instructor (also deleted associated instructor_detail due to cascade configs)
+			if(tempInstructor != null) {
+				session.delete(tempInstructor);
+			}
 			
 			// Commit transaction
 			session.getTransaction().commit();
